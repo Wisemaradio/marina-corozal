@@ -16,7 +16,6 @@ body {
     height: 100vh;
 }
 
-/* TARJETA */
 .card {
     background: rgba(0,0,0,0.6);
     padding: 30px;
@@ -27,7 +26,6 @@ body {
     backdrop-filter: blur(10px);
 }
 
-/* LOGO */
 .logo {
     width: 170px;
     height: 170px;
@@ -52,7 +50,6 @@ h1 {
     color: #00ff88;
     margin: 10px 0;
     font-size: 14px;
-    min-height: 20px;
 }
 
 .btn {
@@ -94,13 +91,13 @@ audio {
 
 <div class="card">
 
-    <!-- LOGO EMISORA -->
     <img src="logo.png" class="logo">
 
     <h1>Marina Stereo 99.8 FM</h1>
     <div class="location">Corozal - Colombia</div>
 
-    <div class="live" id="live">🎵 En vivo</div>
+    <!-- 🔥 SOLO EN VIVO -->
+    <div class="live">🎵 En vivo</div>
 
     <button id="playBtn" class="btn play" onclick="toggleRadio()">
         ▶ Escuchar en vivo
@@ -110,7 +107,6 @@ audio {
 
     <div class="social">
 
-        <!-- ✅ WHATSAPP CORREGIDO -->
         <a href="https://wa.me/573114302957" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
         </a>
@@ -146,47 +142,15 @@ function toggleRadio() {
     }
 }
 
-/* 🔥 METADATA CORREGIDO (LIVE + AUTODJ) */
-
-async function getMetadata() {
-    try {
-        let res = await fetch("https://marina-corozal.wisemaradio.com/api/nowplaying/marina-corozal");
-        let data = await res.json();
-
-        let song = "";
-
-        // 🔥 SI ESTÁ EN VIVO (BUTT)
-        if (data.live && data.live.is_live && data.live.now_playing.song.text) {
-            song = data.live.now_playing.song.text;
-        }
-        // 🔁 SI ES AUTODJ
-        else if (data.now_playing && data.now_playing.song.text) {
-            song = data.now_playing.song.text;
-        }
-
-        if (song && song.trim() !== "") {
-            document.getElementById("live").innerText = "🎶 " + song;
-        } else {
-            document.getElementById("live").innerText = "🎵 En vivo";
-        }
-
-    } catch {
-        document.getElementById("live").innerText = "🎵 En vivo";
-    }
-}
-
-setInterval(getMetadata, 10000);
-getMetadata();
-
 function shareRadio() {
     if (navigator.share) {
         navigator.share({
             title: "Marina Stereo 99.8 FM",
             text: "Escucha nuestra emisora en vivo",
-            url: "https://marinacorozalplay.wisemaradio.com"
+            url: window.location.href
         });
     } else {
-        alert("Comparte este enlace: https://marinacorozalplay.wisemaradio.com");
+        alert("Comparte este enlace: " + window.location.href);
     }
 }
 
