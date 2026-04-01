@@ -134,7 +134,7 @@ transform:scale(1.2);
 <div class="overlay">
 
 <div class="cover">
-<img id="coverImg" src="logo.jpg">
+<img id="coverImg" src="logo.png">
 </div>
 
 <h2>Marina Stereo 99.8 FM</h2>
@@ -205,7 +205,6 @@ btn.innerHTML="▶ Escuchar en vivo";
 /* COMPARTIR */
 
 function compartirRadio(){
-
 if(navigator.share){
 navigator.share({
 title:"Marina Stereo 99.8 FM",
@@ -215,39 +214,28 @@ url:window.location.href
 }else{
 alert("Comparte este enlace: " + window.location.href);
 }
-
 }
 
 /* METADATA DESDE AZURACAST */
 
 async function cargarMetadata(){
-
 try{
-
 let res = await fetch("https://marina-corozal.wisemaradio.com/api/nowplaying");
 let data = await res.json();
-
 let now = data.now_playing.song;
 
 if(now && now.title){
-
 document.getElementById("songTitle").innerHTML =
 "🎵 " + now.artist + " - " + now.title;
-
 }else{
-
 document.getElementById("songTitle").innerHTML =
 "🎵 En vivo";
-
 }
 
 }catch(e){
-
 document.getElementById("songTitle").innerHTML =
 "🎵 En vivo";
-
 }
-
 }
 
 setInterval(cargarMetadata,10000);
