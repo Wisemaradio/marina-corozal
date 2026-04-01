@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,16 +11,17 @@
 <meta name="theme-color" content="#1db954">
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
 color:white;
 text-align:center;
+
 background-image:url('banner.jpg');
 background-size:cover;
 background-position:center;
 background-attachment:fixed;
+
 height:100vh;
 display:flex;
 align-items:center;
@@ -118,7 +118,6 @@ transition:0.3s;
 .social img:hover{
 transform:scale(1.2);
 }
-
 </style>
 
 </head>
@@ -142,7 +141,7 @@ Corozal - Colombia
 </div>
 
 <audio id="radio">
-<source src="https://corsproxy.io/?http://190.60.35.218:8100/radio.mp3" type="audio/mpeg">
+<source src="https://marina-corozal.wisemaradio.com/listen/marina-corozal/radio.mp3" type="audio/mpeg">
 </audio>
 
 <button class="play" onclick="togglePlay()" id="playBtn">
@@ -162,7 +161,6 @@ Corozal - Colombia
 </button>
 
 <div class="social">
-
 <a href="https://wa.me/573218178263" target="_blank">
 <img src="Whatsapp.png">
 </a>
@@ -174,74 +172,68 @@ Corozal - Colombia
 <a href="https://www.facebook.com/share/185JMgMCwJ/" target="_blank">
 <img src="facebook.png">
 </a>
-
 </div>
 
 </div>
 
 <script>
 
-/* PLAYER */
-
 var audio=document.getElementById("radio");
 var btn=document.getElementById("playBtn");
 
 function togglePlay(){
-audio.play().then(()=>{
+if(audio.paused){
+audio.play();
 btn.innerHTML="⏸ Pausar";
-}).catch(()=>{
-alert("Presiona nuevamente para reproducir");
-});
-}
-
-audio.addEventListener("pause",()=>{
+}else{
+audio.pause();
 btn.innerHTML="▶ Escuchar en vivo";
-});
-
-audio.addEventListener("play",()=>{
-btn.innerHTML="⏸ Pausar";
-});
-
-/* COMPARTIR */
+}
+}
 
 function compartirRadio(){
 if(navigator.share){
 navigator.share({
 title:"Marina Stereo 99.8 FM",
 text:"Escucha Marina Stereo en vivo",
-url:window.location.href
+url:"https://marinacorozalplay.wisemaradio.com"
 });
 }else{
-alert("Comparte este enlace: " + window.location.href);
+alert("Comparte este enlace: https://marinacorozalplay.wisemaradio.com");
 }
 }
 
 /* METADATA */
 
-async function cargarMetadata(){
+async function cargarCaratula(){
 try{
-let res = await fetch("https://marina-corozal.wisemaradio.com/api/nowplaying");
-let data = await res.json();
-let now = data.now_playing.song;
+let data = await fetch("https://api.streamafrica.net/new.php?url=https://marina-corozal.wisemaradio.com/listen/marina-corozal/radio.mp3");
+let json = await data.json();
 
-if(now && now.title){
+let artista = json.artist || "";
+let cancion = json.title || "";
+
+if(artista !== "" && cancion !== ""){
 document.getElementById("songTitle").innerHTML =
-"🎵 " + now.artist + " - " + now.title;
+"🎵 " + artista + " - " + cancion;
+
+let portada =
+"https://api.streamafrica.net/cover.php?artist="+encodeURIComponent(artista)+"&title="+encodeURIComponent(cancion);
+
+document.getElementById("coverImg").src = portada;
+
 }else{
-document.getElementById("songTitle").innerHTML =
-"🎵 En vivo";
+document.getElementById("songTitle").innerHTML = "🎵 En vivo";
 }
 
 }catch(e){
-document.getElementById("songTitle").innerHTML =
-"🎵 En vivo";
+document.getElementById("songTitle").innerHTML = "🎵 En vivo";
 }
 }
 
-setInterval(cargarMetadata,10000);
-cargarMetadata();
+setInterval(cargarCaratula,15000);
 
-/* INSTALL */
+/* PWA */
 
 let deferredPrompt;
 
