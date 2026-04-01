@@ -36,8 +36,6 @@ width:340px;
 box-shadow:0 0 30px rgba(0,0,0,0.7);
 }
 
-/* CARATULA */
-
 .cover{
 width:200px;
 height:200px;
@@ -75,8 +73,6 @@ color:#1db954;
 font-weight:bold;
 }
 
-/* BOTON PLAY */
-
 .play{
 background:#1db954;
 border:none;
@@ -91,8 +87,6 @@ margin-bottom:10px;
 .play:hover{
 background:#17a74a;
 }
-
-/* BOTONES */
 
 .share{
 margin-top:8px;
@@ -148,7 +142,7 @@ Corozal - Colombia
 </div>
 
 <audio id="radio">
-<source src="https://marina-corozal.wisemaradio.com/radio.mp3" type="audio/mpeg">
+<source src="https://corsproxy.io/?http://190.60.35.218:8100/radio.mp3" type="audio/mpeg">
 </audio>
 
 <button class="play" onclick="togglePlay()" id="playBtn">
@@ -193,14 +187,20 @@ var audio=document.getElementById("radio");
 var btn=document.getElementById("playBtn");
 
 function togglePlay(){
-if(audio.paused){
-audio.play();
+audio.play().then(()=>{
 btn.innerHTML="⏸ Pausar";
-}else{
-audio.pause();
+}).catch(()=>{
+alert("Presiona nuevamente para reproducir");
+});
+}
+
+audio.addEventListener("pause",()=>{
 btn.innerHTML="▶ Escuchar en vivo";
-}
-}
+});
+
+audio.addEventListener("play",()=>{
+btn.innerHTML="⏸ Pausar";
+});
 
 /* COMPARTIR */
 
@@ -216,7 +216,7 @@ alert("Comparte este enlace: " + window.location.href);
 }
 }
 
-/* METADATA DESDE AZURACAST */
+/* METADATA */
 
 async function cargarMetadata(){
 try{
@@ -241,7 +241,7 @@ document.getElementById("songTitle").innerHTML =
 setInterval(cargarMetadata,10000);
 cargarMetadata();
 
-/* INSTALAR APP */
+/* INSTALL */
 
 let deferredPrompt;
 
@@ -254,8 +254,6 @@ document.getElementById("installBtn").style.display="block";
 document.getElementById("installBtn").addEventListener("click",()=>{
 deferredPrompt.prompt();
 });
-
-/* SERVICE WORKER */
 
 if('serviceWorker' in navigator){
 navigator.serviceWorker.register('sw.js');
