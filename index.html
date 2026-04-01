@@ -203,29 +203,29 @@ alert("Comparte este enlace: https://marinacorozalplay.wisemaradio.com");
 }
 }
 
-/* METADATA DESDE AZURACAST */
+/* 🔥 METADATA CORRECTA (LIVE + AUTODJ) */
 
 async function cargarMetadata(){
 try{
 let data = await fetch("https://marina-corozal.wisemaradio.com/api/nowplaying/marina-corozal");
 let json = await data.json();
 
-let artista = json.now_playing.song.artist || "";
-let cancion = json.now_playing.song.title || "";
+let texto = "🎵 En vivo";
 
-if(artista !== "" && cancion !== ""){
-document.getElementById("songTitle").innerHTML =
-"🎵 " + artista + " - " + cancion;
-}else{
-document.getElementById("songTitle").innerHTML = "🎵 En vivo";
+if(json.live && json.live.is_live){
+texto = "🎙️ " + json.live.now_playing.song.text;
+}else if(json.now_playing && json.now_playing.song.text){
+texto = "🎵 " + json.now_playing.song.text;
 }
+
+document.getElementById("songTitle").innerHTML = texto;
 
 }catch(e){
 document.getElementById("songTitle").innerHTML = "🎵 En vivo";
 }
 }
 
-setInterval(cargarMetadata,10000);
+setInterval(cargarMetadata,5000);
 
 /* PWA */
 
