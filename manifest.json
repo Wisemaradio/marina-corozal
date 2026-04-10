@@ -1,8 +1,8 @@
 {
   "name": "Marina Stereo 99.8 FM",
   "short_name": "Marina 99.8",
-  "start_url": ".",
-  "scope": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#1db954",

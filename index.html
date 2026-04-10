@@ -87,10 +87,6 @@ margin-bottom:10px;
 width:100%;
 }
 
-.play:hover{
-background:#17a74a;
-}
-
 .share{
 background:#007bff;
 border:none;
@@ -159,7 +155,7 @@ Corozal - Colombia
 📲 Compartir emisora
 </button>
 
-<button class="install" id="installBtn" style="display:none;">
+<button class="install" id="installBtn">
 📱 Instalar APP
 </button>
 
@@ -183,8 +179,6 @@ Corozal - Colombia
 
 <script>
 
-/* PLAYER */
-
 var audio=document.getElementById("radio");
 var btn=document.getElementById("playBtn");
 
@@ -200,7 +194,7 @@ btn.innerHTML="▶ Escuchar en vivo";
 
 }
 
-/* 🔥 METADATOS (FIX DEFINITIVO) */
+/* 🔥 METADATOS EXACTO COMO CARBOL */
 
 async function actualizarMetadata(){
 
@@ -211,20 +205,10 @@ let data = await res.json();
 
 let texto = data.now_playing.song.text;
 
-if(
-texto &&
-texto.trim() !== "" &&
-texto !== " - " &&
-!texto.toLowerCase().includes("http") &&
-texto.length > 5
-){
+if(texto && texto.length > 5){
 
-texto = texto
-.replace('.mp3','')
-.replace('.MP3','')
-.trim();
+texto = texto.replace('.mp3','').trim();
 
-/* ✅ SIN FILTRO QUE BLOQUEE */
 document.getElementById("songTitle").innerHTML = "🎶 " + texto;
 
 }else{
@@ -241,14 +225,12 @@ document.getElementById("songTitle").innerHTML = "🎵 En vivo";
 
 }
 
-setInterval(actualizarMetadata, 8000);
+setInterval(actualizarMetadata, 10000);
 actualizarMetadata();
 
 /* COMPARTIR */
 
 function compartirRadio(){
-
-if(navigator.share){
 
 navigator.share({
 title:"Marina Stereo 99.8 FM",
@@ -256,15 +238,9 @@ text:"Escucha Marina Stereo Corozal en vivo",
 url:"https://marinacorozalplay.wisemaradio.com"
 });
 
-}else{
-
-alert("Escúchala aquí: https://marinacorozalplay.wisemaradio.com");
-
 }
 
-}
-
-/* INSTALAR APP */
+/* INSTALAR */
 
 let deferredPrompt;
 
@@ -280,7 +256,7 @@ deferredPrompt.prompt();
 }
 });
 
-/* SERVICE WORKER */
+/* SW */
 
 if('serviceWorker' in navigator){
 navigator.serviceWorker.register('sw.js');
