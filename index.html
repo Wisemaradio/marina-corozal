@@ -1,165 +1,313 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marina Stereo 99.8 FM</title>
+
+<title>Marina Stereo 99.8 FM | Corozal</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1db954">
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
 
-    /* 🔥 AQUÍ VA TU BANNER */
-    background: url('banner.jpg') no-repeat center center fixed;
-    background-size: cover;
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+color:white;
+text-align:center;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+background-image:url('banner.jpg');
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-/* TARJETA */
-.card {
-    background: rgba(0,0,0,0.65);
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    width: 320px;
-    color: white;
-    backdrop-filter: blur(8px);
+.overlay{
+background:rgba(0,0,0,0.80);
+padding:40px;
+border-radius:18px;
+width:340px;
+box-shadow:0 0 30px rgba(0,0,0,0.7);
 }
 
-/* LOGO */
-.logo {
-    width: 170px;
-    height: 170px;
-    object-fit: contain;
-    border-radius: 20px;
-    padding: 10px;
-    background: rgba(255,255,255,0.05);
-    margin-bottom: 15px;
+.cover{
+width:200px;
+height:200px;
+margin:auto;
+margin-bottom:12px;
+border-radius:15px;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
 }
 
-h1 {
-    font-size: 20px;
-    margin: 10px 0;
+.cover img{
+width:100%;
+height:100%;
+object-fit:contain;
 }
 
-.location {
-    font-size: 13px;
-    opacity: 0.8;
+h2{
+margin:6px 0;
+font-size:22px;
 }
 
-/* EN VIVO */
-.live {
-    color: #00ff88;
-    margin: 10px 0;
-    font-size: 14px;
+.location{
+font-size:14px;
+margin-bottom:10px;
+opacity:0.9;
 }
 
-/* BOTONES */
-.btn {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 25px;
-    font-size: 14px;
-    cursor: pointer;
+.song{
+font-size:14px;
+margin-bottom:18px;
+color:#1db954;
+font-weight:bold;
 }
 
-.play {
-    background: #1db954;
-    color: white;
+.play{
+background:#1db954;
+border:none;
+padding:12px 25px;
+border-radius:30px;
+font-size:16px;
+color:white;
+cursor:pointer;
+margin-bottom:10px;
 }
 
-.share {
-    background: #1e90ff;
-    color: white;
+.play:hover{
+background:#17a74a;
 }
 
-/* REDES */
-.social {
-    margin-top: 15px;
+.share{
+margin-top:8px;
+background:#007bff;
+border:none;
+padding:10px 20px;
+border-radius:25px;
+color:white;
+font-size:14px;
+cursor:pointer;
 }
 
-.social a img {
-    width: 35px;
-    margin: 5px;
+.install{
+margin-top:8px;
+background:#ff9800;
+border:none;
+padding:10px 20px;
+border-radius:25px;
+color:white;
+cursor:pointer;
+display:block;
+margin-left:auto;
+margin-right:auto;
 }
 
-audio {
-    display: none;
+.social img{
+width:36px;
+margin:8px;
+transition:0.3s;
 }
+
+.social img:hover{
+transform:scale(1.2);
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div class="card">
+<div class="overlay">
 
-    <img src="logo.png" class="logo">
+<div class="cover">
+<img id="coverImg" src="logo.png">
+</div>
 
-    <h1>Marina Stereo 99.8 FM</h1>
-    <div class="location">Corozal - Colombia</div>
+<h2>Marina Stereo 99.8 FM</h2>
 
-    <div class="live">🎵 En vivo</div>
+<div class="location">
+Corozal - Colombia
+</div>
 
-    <button id="playBtn" class="btn play" onclick="toggleRadio()">
-        ▶ Escuchar en vivo
-    </button>
-
-    <button class="btn share" onclick="shareRadio()">📲 Compartir emisora</button>
-
-    <div class="social">
-
-        <a href="https://wa.me/573114302957" target="_blank">
-            <img src="Whatsapp.png">
-        </a>
-
-        <a href="https://www.instagram.com/marinastereo_arc/" target="_blank">
-            <img src="instagram.png">
-        </a>
-
-        <a href="https://www.facebook.com/share/185JMgMCwJ/" target="_blank">
-            <img src="facebook.png">
-        </a>
-
-    </div>
-
+<div class="song" id="songTitle">
+🎵 En vivo
 </div>
 
 <audio id="radio">
-    <source src="https://marina-corozal.wisemaradio.com/listen/marina-corozal/radio.mp3" type="audio/mpeg">
+<source src="https://marina-corozal.wisemaradio.com/listen/marina-corozal/radio.mp3" type="audio/mpeg">
 </audio>
+
+<button class="play" onclick="togglePlay()" id="playBtn">
+▶ Escuchar en vivo
+</button>
+
+<br>
+
+<button class="share" onclick="compartirRadio()">
+📲 Compartir emisora
+</button>
+
+<br>
+
+<button class="install" id="installBtn" style="display:none;">
+📱 Instalar APP
+</button>
+
+<div class="social">
+
+<a href="https://wa.me/573114302957" target="_blank">
+<img src="WhatsApp.png">
+</a>
+
+<a href="https://www.instagram.com/marinastereo_arc/" target="_blank">
+<img src="instagram.png">
+</a>
+
+<a href="https://www.facebook.com/share/185JMgMCwJ/" target="_blank">
+<img src="facebook.png">
+</a>
+
+</div>
+
+</div>
 
 <script>
 
-let radio = document.getElementById("radio");
-let btn = document.getElementById("playBtn");
+/* PLAYER */
 
-function toggleRadio() {
-    if (radio.paused) {
-        radio.play();
-        btn.innerHTML = "⏸ Pausar";
-    } else {
-        radio.pause();
-        btn.innerHTML = "▶ Escuchar en vivo";
-    }
+var audio=document.getElementById("radio");
+var btn=document.getElementById("playBtn");
+
+function togglePlay(){
+
+if(audio.paused){
+
+audio.play();
+btn.innerHTML="⏸ Pausar";
+
+/* MEDIA SESSION */
+if ('mediaSession' in navigator) {
+navigator.mediaSession.metadata = new MediaMetadata({
+title: 'Marina Stereo 99.8 FM',
+artist: 'En vivo',
+album: 'Corozal - Colombia',
+artwork: [
+{ src: 'logonota.png', sizes: '512x512', type: 'image/png' }
+]
+});
 }
 
-function shareRadio() {
-    if (navigator.share) {
-        navigator.share({
-            title: "Marina Stereo 99.8 FM",
-            text: "Escucha nuestra emisora en vivo",
-            url: window.location.href
-        });
-    } else {
-        alert("Comparte este enlace: " + window.location.href);
-    }
+}else{
+
+audio.pause();
+btn.innerHTML="▶ Escuchar en vivo";
+
+}
+
+}
+
+/* METADATOS */
+
+async function actualizarMetadata(){
+
+try{
+
+let res = await fetch("https://marina-corozal.wisemaradio.com/api/nowplaying/marina-corozal?nocache=" + new Date().getTime());
+let data = await res.json();
+
+let texto = data.now_playing.song.text;
+
+if(
+texto &&
+texto.trim() !== "" &&
+texto.length > 5 &&
+!texto.toLowerCase().includes("http")
+){
+
+texto = texto.replace('.mp3','').trim();
+
+document.getElementById("songTitle").innerHTML = "🎶 " + texto;
+
+/* MEDIA SESSION ACTUALIZA */
+if ('mediaSession' in navigator) {
+navigator.mediaSession.metadata = new MediaMetadata({
+title: texto,
+artist: 'En vivo',
+album: 'Marina Stereo',
+artwork: [
+{ src: 'logonota.png', sizes: '512x512', type: 'image/png' }
+]
+});
+}
+
+}else{
+
+document.getElementById("songTitle").innerHTML = "🎵 En vivo";
+
+}
+
+}catch(e){
+
+document.getElementById("songTitle").innerHTML = "🎵 En vivo";
+
+}
+
+}
+
+setInterval(actualizarMetadata, 10000);
+actualizarMetadata();
+
+/* COMPARTIR */
+
+function compartirRadio(){
+
+if(navigator.share){
+
+navigator.share({
+title:"Marina Stereo 99.8 FM",
+text:"Escucha Marina Stereo Corozal en vivo",
+url:"https://marinacorozalplay.wisemaradio.com"
+});
+
+}else{
+
+alert("Escúchala aquí: https://marinacorozalplay.wisemaradio.com");
+
+}
+
+}
+
+/* INSTALAR APP */
+
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt',(e)=>{
+e.preventDefault();
+deferredPrompt=e;
+document.getElementById("installBtn").style.display="block";
+});
+
+document.getElementById("installBtn").addEventListener("click",()=>{
+deferredPrompt.prompt();
+});
+
+/* SERVICE WORKER */
+
+if('serviceWorker' in navigator){
+navigator.serviceWorker.register('sw.js');
 }
 
 </script>
