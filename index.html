@@ -219,7 +219,7 @@ btn.innerHTML="▶ Escuchar en vivo";
 
 }
 
-/* METADATOS */
+/* 🔥 METADATOS PRO (CORREGIDO) */
 
 async function actualizarMetadata(){
 
@@ -233,15 +233,25 @@ let texto = data.now_playing.song.text;
 if(
 texto &&
 texto.trim() !== "" &&
-texto.length > 5 &&
-!texto.toLowerCase().includes("http")
+texto !== " - " &&
+!texto.toLowerCase().includes("http") &&
+texto.length > 5
 ){
 
-texto = texto.replace('.mp3','').trim();
+texto = texto
+.replace('.mp3','')
+.replace('.MP3','')
+.trim();
+
+/* EVITA TEXTOS MAL FORMADOS */
+if(texto.split('-').length < 2){
+document.getElementById("songTitle").innerHTML = "🎵 En vivo";
+return;
+}
 
 document.getElementById("songTitle").innerHTML = "🎶 " + texto;
 
-/* MEDIA SESSION ACTUALIZA */
+/* MEDIA SESSION */
 if ('mediaSession' in navigator) {
 navigator.mediaSession.metadata = new MediaMetadata({
 title: texto,
@@ -267,7 +277,7 @@ document.getElementById("songTitle").innerHTML = "🎵 En vivo";
 
 }
 
-setInterval(actualizarMetadata, 10000);
+setInterval(actualizarMetadata, 8000);
 actualizarMetadata();
 
 /* COMPARTIR */
