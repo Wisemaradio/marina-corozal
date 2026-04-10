@@ -84,6 +84,7 @@ font-size:16px;
 color:white;
 cursor:pointer;
 margin-bottom:10px;
+width:100%;
 }
 
 .play:hover{
@@ -91,7 +92,6 @@ background:#17a74a;
 }
 
 .share{
-margin-top:8px;
 background:#007bff;
 border:none;
 padding:10px 20px;
@@ -99,19 +99,20 @@ border-radius:25px;
 color:white;
 font-size:14px;
 cursor:pointer;
+margin-top:10px;
+width:100%;
 }
 
 .install{
-margin-top:8px;
 background:#ff9800;
 border:none;
 padding:10px 20px;
 border-radius:25px;
 color:white;
 cursor:pointer;
+margin:12px auto 0 auto;
 display:block;
-margin-left:auto;
-margin-right:auto;
+width:100%;
 }
 
 .social img{
@@ -133,7 +134,7 @@ transform:scale(1.2);
 <div class="overlay">
 
 <div class="cover">
-<img id="coverImg" src="logo.png">
+<img src="logo.png">
 </div>
 
 <h2>Marina Stereo 99.8 FM</h2>
@@ -154,13 +155,9 @@ Corozal - Colombia
 ▶ Escuchar en vivo
 </button>
 
-<br>
-
 <button class="share" onclick="compartirRadio()">
 📲 Compartir emisora
 </button>
-
-<br>
 
 <button class="install" id="installBtn" style="display:none;">
 📱 Instalar APP
@@ -194,32 +191,16 @@ var btn=document.getElementById("playBtn");
 function togglePlay(){
 
 if(audio.paused){
-
 audio.play();
 btn.innerHTML="⏸ Pausar";
-
-/* MEDIA SESSION */
-if ('mediaSession' in navigator) {
-navigator.mediaSession.metadata = new MediaMetadata({
-title: 'Marina Stereo 99.8 FM',
-artist: 'En vivo',
-album: 'Corozal - Colombia',
-artwork: [
-{ src: 'logonota.png', sizes: '512x512', type: 'image/png' }
-]
-});
-}
-
 }else{
-
 audio.pause();
 btn.innerHTML="▶ Escuchar en vivo";
-
 }
 
 }
 
-/* 🔥 METADATOS PRO (CORREGIDO) */
+/* 🔥 METADATOS (FIX DEFINITIVO) */
 
 async function actualizarMetadata(){
 
@@ -243,25 +224,8 @@ texto = texto
 .replace('.MP3','')
 .trim();
 
-/* EVITA TEXTOS MAL FORMADOS */
-if(texto.split('-').length < 2){
-document.getElementById("songTitle").innerHTML = "🎵 En vivo";
-return;
-}
-
+/* ✅ SIN FILTRO QUE BLOQUEE */
 document.getElementById("songTitle").innerHTML = "🎶 " + texto;
-
-/* MEDIA SESSION */
-if ('mediaSession' in navigator) {
-navigator.mediaSession.metadata = new MediaMetadata({
-title: texto,
-artist: 'En vivo',
-album: 'Marina Stereo',
-artwork: [
-{ src: 'logonota.png', sizes: '512x512', type: 'image/png' }
-]
-});
-}
 
 }else{
 
@@ -311,7 +275,9 @@ document.getElementById("installBtn").style.display="block";
 });
 
 document.getElementById("installBtn").addEventListener("click",()=>{
+if(deferredPrompt){
 deferredPrompt.prompt();
+}
 });
 
 /* SERVICE WORKER */
