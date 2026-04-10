@@ -139,8 +139,8 @@ transform:scale(1.2);
 Corozal - Colombia
 </div>
 
-<div class="song" id="songTitle">
-🎵 En vivo
+<div class="song">
+🔴 En vivo
 </div>
 
 <audio id="radio">
@@ -193,40 +193,6 @@ btn.innerHTML="▶ Escuchar en vivo";
 }
 
 }
-
-/* 🔥 METADATOS EXACTO COMO CARBOL */
-
-async function actualizarMetadata(){
-
-try{
-
-let res = await fetch("https://marina-corozal.wisemaradio.com/api/nowplaying/marina-corozal?nocache=" + new Date().getTime());
-let data = await res.json();
-
-let texto = data.now_playing.song.text;
-
-if(texto && texto.length > 5){
-
-texto = texto.replace('.mp3','').trim();
-
-document.getElementById("songTitle").innerHTML = "🎶 " + texto;
-
-}else{
-
-document.getElementById("songTitle").innerHTML = "🎵 En vivo";
-
-}
-
-}catch(e){
-
-document.getElementById("songTitle").innerHTML = "🎵 En vivo";
-
-}
-
-}
-
-setInterval(actualizarMetadata, 10000);
-actualizarMetadata();
 
 /* COMPARTIR */
 
